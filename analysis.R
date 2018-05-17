@@ -15,6 +15,7 @@ header_key <- paste(
 )
 
 base_uri <- "https://api.spotify.com/v1/"
+
 ## Example to find data (Featured Playlist as example)
 browse_playlist_endpoint <- paste0(base_uri, "browse/featured-playlists")
 playlists <- GET(
