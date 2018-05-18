@@ -1,6 +1,7 @@
 library(httr)
 library(jsonlite)
 source("api-keys.R")
+source("apikeys.R")
 
 ## Authorization
 spotify_auth <- oauth_endpoint(
@@ -24,4 +25,4 @@ playlists <- GET(
 )
 
 content <- content(playlists)
-
+View(content)
