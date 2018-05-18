@@ -1,9 +1,13 @@
 library(httr)
 library(jsonlite)
-source("api-keys.R")
+source("api_keys.R")
+source("api-keys.r")
 source("apikeys.R")
 
 ## Authorization
+prev_oauth <- "./.httr-oathr"
+if (file.exists(prev_oauth)) file.remove(prev_oauth)
+
 spotify_auth <- oauth_endpoint(
   authorize = "https://accounts.spotify.com/authorize",
   access = "https://accounts.spotify.com/api/token"
