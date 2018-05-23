@@ -4,8 +4,8 @@ library(dplyr)
 library(shiny)
 library(ggplot2)
 library(plotly)
-source("api_keys.R")
-source("api-keys.r")
+#source("api_keys.R")
+#source("api-keys.r")
 source("apikeys.R")
 
 ## Authorization
@@ -37,5 +37,4 @@ playlists <- GET(
 )
 
 content <- content(playlists)
-View(content)
 
