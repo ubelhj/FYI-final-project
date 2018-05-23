@@ -57,7 +57,9 @@ ui <- navbarPage("Spotify API (Temporary Name)",
         tabPanel("About",
           splitLayout(
             tabsetPanel(type = "tabs", 
-              tabPanel("About the Data Set"
+              tabPanel("About the Data Set",
+              h3(strong("sss")),  
+              p("ssssssssssssss")
               ),
               tabPanel("About the Team",
                 h3(strong("Project Presented By: Team AD3 - FYI (For Your Informatics)")),
