@@ -16,6 +16,7 @@ spotify_auth <- oauth_endpoint(
 )
 myapp <- oauth_app(client_id, client_id, client_secret)
 keys <- oauth2.0_token(spotify_auth, myapp, scope = "playlist-read-private")
+keys$refresh()
 header_key <- paste(
   keys$credentials$token_type, 
   keys$credentials$access_token
@@ -54,3 +55,4 @@ top_100_songs <- GET(
   add_headers("Authorization" = header_key)
 )
 top_100_content <- content(top_100_songs)
+
