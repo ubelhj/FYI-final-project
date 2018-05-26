@@ -64,5 +64,6 @@ top_100_df <- do.call(rbind.data.frame, top_100_content[[1]])
 
 top_100_df <- right_join(top_100_df, top_100, by = "id")
 
-# ggplot(top_100_df, aes(Position, tempo, size = Streams, color = time_signature)) +
-#   geom_point()
+ggplot(top_100_df, aes(tempo, danceability)) +
+  geom_point(aes(color = cut(time_signature, breaks = 2), size = Streams)) +
+  geom_smooth(method = "lm", formula = y~x)
