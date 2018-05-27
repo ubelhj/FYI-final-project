@@ -66,3 +66,16 @@ top_100_df <- right_join(top_100_df, top_100, by = "id")
 
 # ggplot(top_100_df, aes(Position, tempo, size = Streams, color = time_signature)) +
 #   geom_point()
+
+# trying to get track objects instead of audio-features
+
+tracks_list_endpoint <- paste0(base_uri, "tracks")
+top_100_tracks <- GET(
+  url = tracks_list_endpoint, 
+  query = list("ids" = id_query),
+  add_headers("Authorization" = header_key)
+)
+
+top_tracks_content <- content(top_100_tracks)
+
+top_tracks_df <- do.call(rbind.data.frame, top_tracks_content[[1]])
