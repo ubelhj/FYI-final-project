@@ -3,18 +3,18 @@ library(shiny)
 source("global.R")
 source("server.R")
 
-ui <- navbarPage("Exploration of Music", 
+ui <- navbarPage("Exploring Music", 
         tabPanel("Home", 
           sidebarLayout(position = "right",
             sidebarPanel(
               h3(strong("Source:")),
-              p(em("Exploration of Music was possible thanks to Spotify's Web API")),
-              a("Link",
+              p(em("Exploring Music was possible thanks to Spotify's Web API")),
+              a("Spotify Web API",
                 href = 'https://beta.developer.spotify.com/documentation/web-api/')
             ),
             mainPanel(
               h1(strong("Introduction:")),
-              p("This project utilitizes the Spotify Web API. The API endpoints
+              p("Exploring Music utilitizes the Spotify Web API. The API endpoints
                 return JSON metadata about music artists, albums, BPM,
                 and tracks, directly from the Spotify Data Catalogue.
                 It also provides user-related data like playlists and
@@ -30,7 +30,18 @@ ui <- navbarPage("Exploration of Music",
         tabPanel("correlation/hypthesis testing",
           sidebarLayout(
             sidebarPanel(
-              p("temp")
+              selectInput(
+                inputId = "audio_one",
+                label = "Choose First Audio Traits",
+                choices = c("Danceability", "Energy", "Key", "Loudness", "Speechiness", "Acousticness",
+                            "Instrumentalness", "Liveness", "Valence", "Tempo", "Time Signature")
+              ),
+              selectInput(
+                inputId = "audio_two",
+                label = "Choose Second Audio Traits",
+                choices = c("Danceability", "Energy", "Key", "Loudness", "Speechiness", "Acousticness",
+                            "Instrumentalness", "Liveness", "Valence", "Tempo", "Time Signature")
+              )
             ),
             mainPanel(
               p("temp")
