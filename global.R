@@ -1,3 +1,9 @@
+## James Kim, Joe Ubelhart, Timmy Tang, Owen DeArmond-MacLeod
+## Section AD
+
+## install.packages('DT')
+
+library(DT)
 library(httr)
 library(jsonlite)
 library(dplyr)
@@ -66,3 +72,29 @@ top_100_df <- right_join(top_100_df, top_100, by = "id")
 
 # ggplot(top_100_df, aes(Position, tempo, size = Streams, color = time_signature)) +
 #   geom_point()
+
+
+
+## James's Work
+top_100_df_james <- top_100_df %>% 
+  rename("Track Name" = Track.Name,
+         "Danceability" = danceability,
+         "Energy" = energy,
+         "Key" = key,
+         "Loudness" = loudness,
+         "Speechiness" = speechiness,
+         "Acousticness" = acousticness,
+         "Instrumentalness" = instrumentalness,
+         "Liveness" = liveness,
+         "Valence" = valence,
+         "Tempo" = tempo,
+         "Time Signature" = time_signature) %>% 
+  select("Track Name", "Artist", "Danceability", "Energy", "Key",
+         "Loudness", "Speechiness", "Acousticness", "Instrumentalness",
+         "Liveness", "Valence", "Tempo", "Time Signature" )
+  
+
+
+
+
+
