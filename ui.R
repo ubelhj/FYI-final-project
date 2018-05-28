@@ -24,7 +24,7 @@ ui <- navbarPage("Spotify API (Temporary Name)",
             )
           )
         ),
-        tabPanel("Page 1",
+        tabPanel("Page 2",
           sidebarLayout(
             sidebarPanel(
               p("temp")
