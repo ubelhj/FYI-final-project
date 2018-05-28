@@ -65,11 +65,6 @@ server <- function(input, output) {
                per minute(BPM). In musical terminology, tempo is the speed or pace of a
                given piece and derives directly from the average beat duration."))
     }
-    if(audio_one() == "Time Signature"){
-      one <- HTML(paste0("<b>Time Signature: </b> An estimated overall time signature
-               of a track. The time signature (meter) is a notational convention to
-               specify how many beats are in each bar (or measure)."))
-    }
     one
   })
   output$definition_two <- renderText({
@@ -126,11 +121,6 @@ server <- function(input, output) {
                          per minute(BPM). In musical terminology, tempo is the speed or pace of a
                          given piece and derives directly from the average beat duration."))
     }
-    if(audio_two() == "Time Signature"){
-      two <- HTML(paste0("<b>Time Signature: </b> An estimated overall time signature
-                         of a track. The time signature (meter) is a notational convention to
-                         specify how many beats are in each bar (or measure)."))
-    }
     two
     })
   
@@ -140,15 +130,40 @@ server <- function(input, output) {
            audio_one(), "</b> and <b>", audio_two(), "</b>")
     )
   })
-  ## Output for Data Table
+  ## Output for data table
   output$table_one <- DT::renderDataTable(DT::datatable({
     top_100_df_james %>% select("Track Name", "Artist", audio_one(), audio_two())
   }))
-  ## Output for Summary Table
+  ## Output for summary table
   output$summary <- DT::renderDataTable(DT::datatable({
     top_100_df_james %>% select(audio_one(), audio_two())
   }))
+  
   ## Output for plot
+  output$plot <- renderPlotly({
+    font <- list(family = "arial",
+                 size = 14,
+                 color = "#386cb0")
+    x <- list(title = audio_one(),
+              titlefont = font)
+    y <- list(title = audio_two(),
+              titlefont = font)
+    
+    plot_ly(top_100_df_james, x = ~get(audio_one()), y = ~get(audio_two()),
+            text = ~paste0("Track Name: ", `Track Name`, 
+                           "<br>Artist: ", `Artist`,
+                           "<br>", audio_one(), ": ", get(audio_one()),
+                           "<br>", audio_two(), ": ", get(audio_two()))) %>% 
+      layout(xaxis = x, yaxis = y)
+                           
+
+  })
+  # track_name <- "Track Name"
+  # p <- ggplot(top_100_df_james,
+  #             aes_string(x = audio_one(), y = audio_two(),
+  #                        text = as.name(track_name))) +
+  #   geom_point()
+  # ggplotly(p)  
   
 ## Joe's Server Portion
 

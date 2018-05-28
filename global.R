@@ -87,11 +87,15 @@ top_100_df_james <- top_100_df %>%
          "Instrumentalness" = instrumentalness,
          "Liveness" = liveness,
          "Valence" = valence,
-         "Tempo" = tempo,
-         "Time Signature" = time_signature) %>% 
+         "Tempo" = tempo) %>% 
   select("Track Name", "Artist", "Danceability", "Energy", "Key",
          "Loudness", "Speechiness", "Acousticness", "Instrumentalness",
-         "Liveness", "Valence", "Tempo", "Time Signature" )
+         "Liveness", "Valence", "Tempo")
+
+column_names_james <- top_100_df_james %>% 
+  select("Danceability", "Energy", "Key",
+         "Loudness", "Speechiness", "Acousticness", "Instrumentalness",
+         "Liveness", "Valence", "Tempo")
   
 
 

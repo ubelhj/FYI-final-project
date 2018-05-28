@@ -35,16 +35,12 @@ ui <- navbarPage("Exploring Music Through Spotify",
               selectInput(
                 inputId = "audio_one",
                 label = "First Audio Traits",
-                choices = c("Danceability", "Energy", "Key", "Loudness",
-                            "Speechiness", "Acousticness", "Instrumentalness",
-                            "Liveness", "Valence", "Tempo", "Time Signature")
+                choices = c(colnames(column_names_james))
               ),
               selectInput(
                 inputId = "audio_two",
                 label = "Second Audio Traits",
-                choices = c("Danceability", "Energy", "Key", "Loudness",
-                            "Speechiness", "Acousticness", "Instrumentalness",
-                            "Liveness", "Valence", "Tempo", "Time Signature")
+                choices = c(colnames(column_names_james))
               ),
               h4(strong("Definitions:")),
               p(htmlOutput("definition_one")),
