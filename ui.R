@@ -23,7 +23,8 @@ ui <- navbarPage("Exploring Music Through Spotify",
                 questions regarding music. Our project allows our users to
                 investigate genre popularity and album information to more
                 technical aspect of songs such as time signature vs. BPM and if
-                songs are more relatively positive and negative.")
+                songs are more relatively positive and negative."),
+              p("Project Presented By: Team AD3 - FYI (For Your Informatics)")
             )
           )
         ),
@@ -54,7 +55,7 @@ ui <- navbarPage("Exploring Music Through Spotify",
                           tabPanel("Table", DT::dataTableOutput("table_one")),
                           tabPanel("Summary")
               ),
-              p(textOutput("statement_one"))
+              p(htmlOutput("statement_one"))
             )
           )
         ),

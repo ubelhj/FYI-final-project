@@ -7,6 +7,7 @@ source("global.R")
 
 server <- function(input, output) {
 ## James's Server Portion
+  
 ## Reactive Functions
   audio_one <- reactive({
     input$audio_one
@@ -14,7 +15,7 @@ server <- function(input, output) {
   audio_two <- reactive({
     input$audio_two
   })
-## Definitions
+## Definition of Music Traits
   output$definition_one <- renderText({
     if(audio_one() == "Danceability"){
       one <- HTML(paste0("<b>Danceability: </b> How suitable a track is for 
@@ -140,8 +141,8 @@ server <- function(input, output) {
   
 ## Statement
   output$statement_one <- renderText({
-    paste0("The data used are for the traits: ",
-           audio_one(), " and ", audio_two()
+    HTML(paste0("The data used are for the traits: <b>",
+           audio_one(), "</b> and <b>", audio_two(), "</b>")
     )
   })
 ## Output for Data Table
