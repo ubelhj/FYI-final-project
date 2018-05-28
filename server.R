@@ -1,21 +1,16 @@
-library(shiny)
-library(ggplot2)
-library(plotly)
-
 source("global.R")
 
-
 server <- function(input, output) {
-## James's Server Portion
+  ## James's Server Portion
   
-## Reactive Functions
+  ## Reactive Functions
   audio_one <- reactive({
     input$audio_one
   })
   audio_two <- reactive({
     input$audio_two
   })
-## Definition of Music Traits
+  ## Definition of Music Traits
   output$definition_one <- renderText({
     if(audio_one() == "Danceability"){
       one <- HTML(paste0("<b>Danceability: </b> How suitable a track is for 
@@ -139,17 +134,22 @@ server <- function(input, output) {
     two
     })
   
-## Statement
+  ## Statement
   output$statement_one <- renderText({
     HTML(paste0("The data used are for the traits: <b>",
            audio_one(), "</b> and <b>", audio_two(), "</b>")
     )
   })
-## Output for Data Table
+  ## Output for Data Table
   output$table_one <- DT::renderDataTable(DT::datatable({
     top_100_df_james %>% select("Track Name", "Artist", audio_one(), audio_two())
   }))
-    
+  ## Output for Summary Table
+  output$summary <- DT::renderDataTable(DT::datatable({
+    top_100_df_james %>% select(audio_one(), audio_two())
+  }))
+  ## Output for plot
+  
 ## Joe's Server Portion
 
 ## Owen's Server Portion
@@ -160,6 +160,5 @@ server <- function(input, output) {
   
     
 }
-
 
 shinyServer(server)

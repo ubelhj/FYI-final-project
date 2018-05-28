@@ -1,7 +1,4 @@
-library(shiny)
-
 source("global.R")
-source("server.R")
 
 ui <- navbarPage("Exploring Music Through Spotify", 
         tabPanel("Home", 
@@ -13,6 +10,7 @@ ui <- navbarPage("Exploring Music Through Spotify",
                 href = 'https://beta.developer.spotify.com/documentation/web-api/')
             ),
             mainPanel(
+              #img(src="/logos/3.png"),
               h1(strong("Introduction:")),
               p("Exploring Music utilitizes the Spotify Web API. The API endpoints
                 return JSON metadata about music artists, albums, BPM,
@@ -25,6 +23,7 @@ ui <- navbarPage("Exploring Music Through Spotify",
                 technical aspect of songs such as time signature vs. BPM and if
                 songs are more relatively positive and negative."),
               p("Project Presented By: Team AD3 - FYI (For Your Informatics)")
+              #img(src="https://ischool.uw.edu/sites/default/files/inline-images/logo-black-vertical.jpg")
             )
           )
         ),
@@ -36,26 +35,28 @@ ui <- navbarPage("Exploring Music Through Spotify",
               selectInput(
                 inputId = "audio_one",
                 label = "First Audio Traits",
-                choices = c("Danceability", "Energy", "Key", "Loudness", "Speechiness", "Acousticness",
-                            "Instrumentalness", "Liveness", "Valence", "Tempo", "Time Signature")
+                choices = c("Danceability", "Energy", "Key", "Loudness",
+                            "Speechiness", "Acousticness", "Instrumentalness",
+                            "Liveness", "Valence", "Tempo", "Time Signature")
               ),
               selectInput(
                 inputId = "audio_two",
                 label = "Second Audio Traits",
-                choices = c("Danceability", "Energy", "Key", "Loudness", "Speechiness", "Acousticness",
-                            "Instrumentalness", "Liveness", "Valence", "Tempo", "Time Signature")
+                choices = c("Danceability", "Energy", "Key", "Loudness",
+                            "Speechiness", "Acousticness", "Instrumentalness",
+                            "Liveness", "Valence", "Tempo", "Time Signature")
               ),
               h4(strong("Definitions:")),
               p(htmlOutput("definition_one")),
               p(htmlOutput("definition_two"))
             ),
             mainPanel(
+              p(htmlOutput("statement_one")),
               tabsetPanel(type = "tabs",
-                          tabPanel("Visual"),
+                          tabPanel("Visual", plotlyOutput("plot")),
                           tabPanel("Table", DT::dataTableOutput("table_one")),
-                          tabPanel("Summary")
-              ),
-              p(htmlOutput("statement_one"))
+                          tabPanel("Summary", DT::dataTableOutput("summary"))
+              )
             )
           )
         ),
@@ -85,21 +86,33 @@ ui <- navbarPage("Exploring Music Through Spotify",
               tabPanel("About the Project",
                 h2(strong("Project Description")),
                 h4(strong("What is the data?")),
-                p("ssssssssssssss"),
+                p("temp"),
                 h4(strong("Why do we care?")),
-                p("aaaa"),
+                p("temp"),
                 h2(strong("Technical Description")),
                 h4(strong("What libraries were used?")),
-                p("jjj")
+                HTML("<li> DT - R interface to the JavaScript library DataTables. </li> 
+                     <li> httr - Tools for working with HTTP organised by HTTP verbs. </li>
+                     <li> jsonlite - JSON parser and generator optimized for
+                     statistical data and the web. </li>
+                     <li> dplyr - A fast, consistent tool for working with data frame
+                     like objects, both in memory and out of memory. </li>
+                     <li> Shiny - Package that makes it easy to build interactive web
+                     apps straight from R. </li>
+                     <li> ggplot2 - Data visualization package for R. </li>
+                     <li> Plotly - Library makes interactive, publication-quality 
+                     graphs with R. </li>")
               ),
               tabPanel("About the Team",
                 h3(strong("Project Presented By: Team AD3 - FYI (For Your Informatics)")),
                 h3("Members: James Kim, Joe Ubelhart, Timmy Tang, Owen DeArmond-MacLeod"),
                 h3("Biography:"),
                 h5(strong("James Kim:")),
-                p("Hello!"),
+                p("Hello! I like to code. Cx"),
                 h5(strong("Joe Ubelhart:")),
+                p(""),
                 h5(strong("Timmy Tang:")),
+                p(""),
                 h5(strong("Owen DeArmond-MacLeod:")),
                 p("I'm Owen DeArmond-MacLeod, a Poly Sci major who has an interest
                   in informatics and statistics")
