@@ -27,7 +27,7 @@ ui <- navbarPage("Exploring Music Through Spotify",
             )
           )
         ),
-        tabPanel("correlation/hypthesis testing",
+        tabPanel("Audio Traits of Top 100 Songs",
           sidebarLayout(
             sidebarPanel(
               h4(strong("Directions")),
@@ -49,7 +49,9 @@ ui <- navbarPage("Exploring Music Through Spotify",
             mainPanel(
               p(htmlOutput("statement_one")),
               tabsetPanel(type = "tabs",
-                          tabPanel("Visual", plotlyOutput("plot")),
+                          tabPanel("Visual", 
+                                   p("  "),
+                                   plotlyOutput("plot")),
                           tabPanel("Table", DT::dataTableOutput("table_one")),
                           tabPanel("Summary", DT::dataTableOutput("summary"))
               )

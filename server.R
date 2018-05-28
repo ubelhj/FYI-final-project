@@ -142,29 +142,23 @@ server <- function(input, output) {
   ## Output for plot
   output$plot <- renderPlotly({
     font <- list(family = "arial",
-                 size = 14,
-                 color = "#386cb0")
+                 size = 14)
     x <- list(title = audio_one(),
               titlefont = font)
     y <- list(title = audio_two(),
               titlefont = font)
+    title <- ~paste0(audio_one(), " vs. ", audio_two(), " Scatter Plot")
     
     plot_ly(top_100_df_james, x = ~get(audio_one()), y = ~get(audio_two()),
             text = ~paste0("Track Name: ", `Track Name`, 
                            "<br>Artist: ", `Artist`,
                            "<br>", audio_one(), ": ", get(audio_one()),
                            "<br>", audio_two(), ": ", get(audio_two()))) %>% 
-      layout(xaxis = x, yaxis = y)
-                           
-
+      layout(title = title, 
+             xaxis = x, 
+             yaxis = y)
   })
-  # track_name <- "Track Name"
-  # p <- ggplot(top_100_df_james,
-  #             aes_string(x = audio_one(), y = audio_two(),
-  #                        text = as.name(track_name))) +
-  #   geom_point()
-  # ggplotly(p)  
-  
+
 ## Joe's Server Portion
 
 ## Owen's Server Portion
