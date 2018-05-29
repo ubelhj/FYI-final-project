@@ -111,21 +111,4 @@ world_map$Country_code = iso.alpha(world_map$region, n = 2)
 
 
 
-top_50 <- top_200 %>% 
-  head(50) %>% 
-  mutate(id = sapply(strsplit(URL, "/"), "[[", 5))
 
-id_query_50 <- paste0(top_50$id, collapse = ",")
-
-top_50_songs_regions <- GET(
-  url = paste0(base_uri, "tracks"), 
-  query = list("ids" = id_query_50),
-  add_headers("Authorization" = header_key)
-)
-
-top_50_region <- content(top_50_songs_regions)
-# Here's where I am stuck
-
-# Timmy's method
-top_region_df <- do.call(rbind.data.frame, top_50_region$tracks[[1]]$available_markets)
-top_region_df <- mutate(top_region_df)
