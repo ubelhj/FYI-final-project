@@ -1,3 +1,9 @@
+## James Kim, Joe Ubelhart, Timmy Tang, Owen DeArmond-MacLeod
+## Section AD
+
+## install.packages('DT')
+
+library(DT)
 library(httr)
 library(jsonlite)
 library(dplyr)
@@ -26,20 +32,20 @@ top_200 <- read.csv("top200.csv", stringsAsFactors = FALSE)
 
 
 ## Example to find data (Featured Playlist as example)
-browse_playlist_endpoint <- paste0(base_uri, "browse/featured-playlists")
-playlists <- GET(
-  url = browse_playlist_endpoint, 
-  add_headers("Authorization" = header_key)
-)
-
-content <- content(playlists)
-
-america_endpoint <- paste0(base_uri, "audio-features/0b9oOr2ZgvyQu88wzixux9")
-this_is_america <- GET(
-  url = america_endpoint, 
-  add_headers("Authorization" = header_key)
-)
-america_content <- content(this_is_america)
+# browse_playlist_endpoint <- paste0(base_uri, "browse/featured-playlists")
+# playlists <- GET(
+#   url = browse_playlist_endpoint, 
+#   add_headers("Authorization" = header_key)
+# )
+# 
+# content <- content(playlists)
+# 
+# america_endpoint <- paste0(base_uri, "audio-features/0b9oOr2ZgvyQu88wzixux9")
+# this_is_america <- GET(
+#   url = america_endpoint, 
+#   add_headers("Authorization" = header_key)
+# )
+# america_content <- content(this_is_america)
 
 
 
@@ -63,7 +69,7 @@ top_100_content <- content(top_100_songs)
 top_100_df <- do.call(rbind.data.frame, top_100_content[[1]])
 
 top_100_df <- right_join(top_100_df, top_100, by = "id")
-colnames(top_100_df) <- tolower(colnames(top_100_df))
+top_100_df[is.na(top_100_df)] <- 0
 
 ## Test animated metronome
 
@@ -85,3 +91,39 @@ colnames(top_100_df) <- tolower(colnames(top_100_df))
 #   ) %>% 
 #   animation_opts(frame = 60000 / animation_test_row$tempo, mode = "next")
 # p
+
+
+## James's Work
+top_100_df_james <- top_100_df %>% 
+  rename("Track Name" = Track.Name,
+         "Danceability" = danceability,
+         "Energy" = energy,
+         "Key" = key,
+         "Loudness" = loudness,
+         "Speechiness" = speechiness,
+         "Acousticness" = acousticness,
+         "Instrumentalness" = instrumentalness,
+         "Liveness" = liveness,
+         "Valence" = valence,
+         "Tempo" = tempo
+         ) %>% 
+  mutate("Href" = paste0("<a href = ", URL, ">Listen</a>")) %>% 
+  select("Track Name", "Artist", "Acousticness", "Danceability", "Energy",
+         "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness",  
+         "Tempo", "Valence", "Streams", "Href")
+  
+column_names_james <- top_100_df_james %>% 
+  select("Acousticness", "Danceability", "Energy",
+         "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness",  
+         "Tempo", "Valence")
+  
+# 
+# plot_ly(top_100_df_james, x = ~get(audio_one()), y = ~get(audio_two(), size = Streams),
+#         text = ~paste0("Track Name: ", `Track Name`, 
+#                        "<br>Artist: ", `Artist`,
+#                        "<br>", audio_one(), ": ", get(audio_one()),
+#                        "<br>", audio_two(), ": ", get(audio_two())),
+#                        "<br>Streams: ", `Streams`) %>% 
+#   layout(title = title, 
+#          xaxis = x, 
+#          yaxis = y)
