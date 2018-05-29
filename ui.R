@@ -1,5 +1,6 @@
 source("global.R")
 
+<<<<<<< HEAD
 ui <- navbarPage("Exploring Music Through Spotify", 
                  tabPanel("Home", 
                           sidebarLayout(position = "right",
@@ -105,5 +106,6 @@ ui <- navbarPage("Exploring Music Through Spotify",
                             )
                           )
                  )
+
 
 shinyUI(ui)
