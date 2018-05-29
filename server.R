@@ -165,8 +165,8 @@ server <- function(input, output) {
 
 ## Timmy's Server Portion
   output$plot <- renderPlot({ 
-    ggplot(data = world_map) +
-      geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = highlight)) +
+    ggplot(data = combine) +
+      geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = highlight), color = "white") +
       coord_quickmap() +
       labs(
         title = "Spotify in the World",

@@ -105,12 +105,78 @@ column_names_james <- top_100_df_james %>%
   
 ## Timmy's work
 
+country_code <- c("us",
+                     "gb",
+                     "ad",
+                     "ar",
+                     "at",
+                     "au",
+                     "be",
+                     "bg",
+                     "bo",
+                     "br",
+                     "ca",
+                     "ch",
+                     "cl",
+                     "co",
+                     "cr",
+                     "cy",
+                     "cz",
+                     "de",
+                     "dk",
+                     "do",
+                     "ec",
+                     "ee",
+                     "es",
+                     "fi",
+                     "fr",
+                     "gr",
+                     "gt",
+                     "hk",
+                     "hn",
+                     "hu",
+                     "id",
+                     "ie",
+                     "il",
+                     "is",
+                     "it",
+                     "jp",
+                     "lt",
+                     "lu",
+                     "lv",
+                     "mc",
+                     "mt",
+                     "mx",
+                     "my",
+                     "ni",
+                     "nl",
+                     "no",
+                     "nz",
+                     "pa",
+                     "pe",
+                     "ph",
+                     "pl",
+                     "pt",
+                     "py",
+                     "ro",
+                     "se",
+                     "sg",
+                     "sk",
+                     "sv",
+                     "th",
+                     "tr",
+                     "tw",
+                     "uy",
+                     "vn") %>% toupper()
 
-world_map <- map_data("world") %>% group_by(region) %>% mutate(highlight = F)
-world_map$Country_code = iso.alpha(world_map$region, n = 2)
+has_data <- data.frame("Country_desig" = country_code, "highlight" = T)
+combine <- left_join(world_map, has_data, by = "Country_desig")
+
+world_map <- map_data("world") %>% group_by(region)
+world_map$Country_desig = iso.alpha(world_map$region, n = 2)
+
+combine$highlight[is.na(combine$highlight)] <- F
 
 
-top_100_region <- top_200 %>% head(100) %>% mutate(id = substr(URL, 32, nchar(URL)))
-top_50 <- top_100_region %>% head(50)
-bot_50 <- top_100_region %>% tail(50)
+
 
