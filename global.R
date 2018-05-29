@@ -116,7 +116,7 @@ top_100_df_james <- top_100_df %>%
 column_names_james <- top_100_df_james %>% 
   select("Acousticness", "Danceability", "Energy",
          "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness",  
-         "Tempo", "Valence")
+         "Tempo", "Valence", "Streams")
   
 
 # plot_ly(top_100_df_james, x = ~get(audio_one()), y = ~get(audio_two(), size = Streams),
