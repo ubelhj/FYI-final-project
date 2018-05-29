@@ -106,9 +106,11 @@ column_names_james <- top_100_df_james %>%
 ## Timmy's work
 
 
-world_map <- map_data("world") %>% group_by(region)
+world_map <- map_data("world") %>% group_by(region) %>% mutate(highlight = F)
 world_map$Country_code = iso.alpha(world_map$region, n = 2)
 
 
-
+top_100_region <- top_200 %>% head(100) %>% mutate(id = substr(URL, 32, nchar(URL)))
+top_50 <- top_100_region %>% head(50)
+bot_50 <- top_100_region %>% tail(50)
 

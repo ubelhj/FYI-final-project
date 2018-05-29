@@ -59,7 +59,7 @@ ui <- navbarPage("Exploring Music Through Spotify",
                  tabPanel("Chloropleth Map",
                           sidebarLayout(
                             sidebarPanel(
-                              p("temp")
+                              plotOutput("plot", click = "plot_click")
                             ),
                             mainPanel(
                               p("temp")
