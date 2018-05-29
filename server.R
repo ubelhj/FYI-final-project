@@ -206,6 +206,16 @@ server <- function(input, output) {
     )
   })
   
+  output$features_analysis <- renderText({
+    paste0(
+      "Before looking at the data, we wondered, what if audio features such ",
+      "as Tempo affected a song's popularity. The answer is no. The top 100 ",
+      "global songs are scattered fairly randomly, with no correlation. This ",
+      "in hindsight seems pretty obvious. People's music tastes vary, and even",
+      " a single album has many different beats and styles."
+    )
+  })
+  
 ## Owen's Server Portion
 
 ## Timmy's Server Portion
