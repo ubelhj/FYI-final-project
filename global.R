@@ -63,7 +63,25 @@ top_100_content <- content(top_100_songs)
 top_100_df <- do.call(rbind.data.frame, top_100_content[[1]])
 
 top_100_df <- right_join(top_100_df, top_100, by = "id")
+colnames(top_100_df) <- tolower(colnames(top_100_df))
 
-ggplot(top_100_df, aes(tempo, danceability)) +
-  geom_point(aes(color = cut(time_signature, breaks = 2), size = Streams)) +
-  geom_smooth(method = "lm", formula = y~x)
+## Test animated metronome
+
+# animation_test_row <- top_100_df %>% 
+#   filter(position == 1) 
+# 
+# 
+# df <- data.frame(
+#   x = c(1,2,3,4), 
+#   f = c(1,2,3,4)
+# )
+# 
+# p <- df %>%
+#   plot_ly(
+#     x = ~x,
+#     frame = ~f,
+#     type = 'bar',
+#     showlegend = F
+#   ) %>% 
+#   animation_opts(frame = 60000 / animation_test_row$tempo, mode = "next")
+# p

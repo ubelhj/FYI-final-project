@@ -20,11 +20,12 @@ ui <- navbarPage("Spotify API (Temporary Name)",
               p("temp")
             ),
             mainPanel(
-              p("temp")
+              p("temp"),
+              plotOutput("tempo_plot", click = "tempo_click")
             )
           )
         ),
-        tabPanel("Page 1",
+        tabPanel("Page 2",
           sidebarLayout(
             sidebarPanel(
               p("temp")
