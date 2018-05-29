@@ -140,7 +140,8 @@ server <- function(input, output) {
   }))
   ## Output for summary table
   output$summary <- DT::renderDataTable(DT::datatable({
-    top_100_df_james %>% select(audio_one(), audio_two())
+    top_100_df_james %>% select(audio_one(), audio_two()) %>% 
+      summarize("Average" = mean(get(audio_one())))
   }))
   
   ## Output for plot
