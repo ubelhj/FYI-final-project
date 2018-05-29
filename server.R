@@ -1,12 +1,8 @@
 source("global.R")
 
 server <- function(input, output) {
-
   
-
   ## James's Server Portion
-
-  
   ## Reactive Functions
   audio_one <- reactive({
     input$audio_one
@@ -140,8 +136,12 @@ server <- function(input, output) {
   }))
   ## Output for summary table
   output$summary <- DT::renderDataTable(DT::datatable({
+    average_one <- ~paste0(audio_one(), "Average")
+    average_two <- ~paste0(audio_two(), "Average")
     top_100_df_james %>% select(audio_one(), audio_two()) %>% 
-      summarize("Average" = mean(get(audio_one())))
+      summarize(average_one = mean(get(audio_one())),
+                average_two = mean(get(audio_two()))
+      )
   }))
   
   ## Output for plot
@@ -180,19 +180,20 @@ server <- function(input, output) {
   output$features_click <- renderText({
     point <- event_data("plotly_click")
     paste0(
+      "<h4><b><u>Song Information</u></b>",
+      "<br><b>Track Name: </b>",
       top_100_df_james[(point$pointNumber + 1), "Track Name"],
-      "<br>By: ",
+      "<br><b>Artist: </b>",
       top_100_df_james[(point$pointNumber + 1), "Artist"],
-      "<br>",
+      "<br><b>Streams: </b>",
       top_100_df_james[(point$pointNumber + 1), "Streams"],
-      " Streams",
-      "<br>",
-      input$audio_one,
-      " = ",
+      "<br><b>",
+      audio_one(),
+      ": </b>",
       top_100_df_james[(point$pointNumber + 1), audio_one()],
-      "<br>",
-      input$audio_two,
-      " = ",
+      "<br><b>",
+      audio_two(),
+      ": </b>",
       top_100_df_james[(point$pointNumber + 1), audio_two()],
       "<br>",
       top_100_df_james[(point$pointNumber + 1), "Href"]
