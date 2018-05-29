@@ -1,7 +1,4 @@
-library(shiny)
-
 source("global.R")
-source("server.R")
 
 ui <- navbarPage("Exploring Music Through Spotify", 
                  tabPanel("Home", 
