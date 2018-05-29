@@ -10,16 +10,15 @@ library(dplyr)
 library(shiny)
 library(ggplot2)
 library(plotly)
+library(maps)
+
 source("apikeys.R")
 
 ## Authorization
-<<<<<<< HEAD
+
 prev_oauth <- "./.httr-oathr"
 if (file.exists(prev_oauth)) file.remove(prev_oauth)
 
-
-=======
->>>>>>> 78dbd2d9941cf093c24d3873e54a0cac17854083
 spotify_auth <- oauth_endpoint(
   authorize = "https://accounts.spotify.com/authorize",
   access = "https://accounts.spotify.com/api/token"
@@ -104,8 +103,29 @@ column_names_james <- top_100_df_james %>%
          "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness",  
          "Tempo", "Valence")
   
+## Timmy's work
+
+
+world_map <- map_data("world") %>% group_by(region)
+world_map$Country_code = iso.alpha(world_map$region, n = 2)
 
 
 
+top_50 <- top_200 %>% 
+  head(50) %>% 
+  mutate(id = sapply(strsplit(URL, "/"), "[[", 5))
 
+id_query_50 <- paste0(top_50$id, collapse = ",")
 
+top_50_songs_regions <- GET(
+  url = paste0(base_uri, "tracks"), 
+  query = list("ids" = id_query_50),
+  add_headers("Authorization" = header_key)
+)
+
+top_50_region <- content(top_50_songs_regions)
+# Here's where I am stuck
+
+# Timmy's method
+top_region_df <- do.call(rbind.data.frame, top_50_region$tracks[[1]]$available_markets)
+top_region_df <- mutate(top_region_df)
