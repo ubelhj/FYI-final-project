@@ -2,8 +2,8 @@ source("global.R")
 
 
 server <- function(input, output) {
-  ## James's Server Portion
   
+  ## James's Server Portion
   ## Reactive Functions
   audio_one <- reactive({
     input$audio_one
@@ -66,6 +66,9 @@ server <- function(input, output) {
                per minute(BPM). In musical terminology, tempo is the speed or pace of a
                given piece and derives directly from the average beat duration."))
     }
+    if(audio_one() == "Streams") {
+      one <- HTML(paste0("<b>Streams: </b> The total global streams of each song yesterday"))
+    }
     one
   })
   output$definition_two <- renderText({
@@ -122,6 +125,9 @@ server <- function(input, output) {
                          per minute(BPM). In musical terminology, tempo is the speed or pace of a
                          given piece and derives directly from the average beat duration."))
     }
+    if(audio_two() == "Streams") {
+      two <- HTML(paste0("<b>Streams: </b> The total global streams of each song yesterday"))
+    }
     two
     })
   
@@ -137,7 +143,16 @@ server <- function(input, output) {
   }))
   ## Output for summary table
   output$summary <- DT::renderDataTable(DT::datatable({
-    top_100_df_james %>% select(audio_one(), audio_two())
+    average_one <- ~paste0(audio_one(), "Average")
+    average_two <- ~paste0(audio_two(), "Average")
+    top_100_df_james %>% select(audio_one(), audio_two()) %>% 
+      summarize("Average for First Audio Trait" = mean(get(audio_one())),
+                "Max for First Audio Trait" = max(get(audio_one())),
+                "Min for First Audio Trait" = min(get(audio_one())),
+                "Average for Second Audio Trait" = mean(get(audio_two())),
+                "Max for Second Audio Trait" = max(get(audio_two())),
+                "Min for Second Audio Trait" = min(get(audio_two()))
+      )
   }))
   
   ## Output for plot
@@ -158,16 +173,118 @@ server <- function(input, output) {
       layout(title = title, 
              xaxis = x, 
              yaxis = y)
+    
   })
 
 ## Joe's Server Portion
-
+  
+  ## Metronome plot
+  # output$tempo_plot <- renderPlot(
+  #   #ggplotly(
+  #   ggplot(top_100_df, aes(tempo, danceability)) +
+  #     geom_point(aes(color = cut(time_signature, breaks = 2), size = streams)) +
+  #     geom_smooth(method = "lm", formula = y~x)
+  #   #)
+  # )
+  
+  ## Click data and link to song
+  output$features_click <- renderText({
+    point <- event_data("plotly_click")
+    paste0(
+      "<h4><b><u>Song Information</u></b>",
+      "<br><b>Track Name: </b>",
+      top_100_df_james[(point$pointNumber + 1), "Track Name"],
+      "<br><b>Artist: </b>",
+      top_100_df_james[(point$pointNumber + 1), "Artist"],
+      "<br><b>Streams: </b>",
+      top_100_df_james[(point$pointNumber + 1), "Streams"],
+      "<br><b>",
+      audio_one(),
+      ": </b>",
+      top_100_df_james[(point$pointNumber + 1), audio_one()],
+      "<br><b>",
+      audio_two(),
+      ": </b>",
+      top_100_df_james[(point$pointNumber + 1), audio_two()],
+      "<br>",
+      top_100_df_james[(point$pointNumber + 1), "Href"]
+    )
+  })
+  
+  output$features_analysis <- renderText({
+    paste0(
+      "Before looking at the data, we wondered, what if audio features such ",
+      "as Tempo affected a song's popularity. The answer is no. The top 100 ",
+      "global songs are scattered reasonably randomly, with no correlation. This ",
+      "conclusion, in hindsight, seems pretty apparent. People's music tastes vary,",
+      "and even, a single album has many different beats and styles."
+    )
+  })
+  
 ## Owen's Server Portion
 
+  output$plot2 <- renderPlotly({
+    
+    top_50 %>% 
+      plot_ly(x = jitter(0), y = ~Popularity, color = ~Explicit,
+              text = paste0("Explicit: ", ~Explicit, "Name: ", ~Name)
+              )
+    
+  })
+  
 ## Timmy's Server Portion
+  country_choose <- reactive({
+    input$countries
+  })
+
+  output$statement_two <- renderText({
+    HTML(paste0(country_choose(), "'s Top 200 Songs")
+    )
+  })  
+  output$plot_map <- renderggiraph({ 
+    map_plot <- ggplot(data = combine) +
+                  geom_polygon_interactive(
+                    mapping = aes(x = long, 
+                                  y = lat, 
+                                  group = group, 
+                                  fill = highlight,
+                                  tooltip = sprintf("%s<br/>%s",
+                                                    region, 
+                                                    highlight)),
+                               color = "black") +
+      coord_quickmap() +
+      scale_fill_manual(values = c("#FFFFFF", "#1DB954")) +
+      labs(title = "",
+           x = "",
+           y = "") + 
+      theme(axis.line=element_blank(),axis.text.x=element_blank(),
+            axis.text.y=element_blank(),axis.ticks=element_blank(),
+            axis.title.x=element_blank(),
+            axis.title.y=element_blank(),
+            panel.background=element_blank(),panel.border=element_blank(), 
+            panel.grid.major=element_blank(),
+            panel.grid.minor=element_blank(),plot.background=element_blank(), 
+            plot.title = element_text(hjust = 0.5),
+            legend.position="none"
+      )
+    ggiraph(code = {print(map_plot)})
+    
+  })
+
   
-  
-  
+  output$top10table <- DT::renderDataTable(DT::datatable({
+      selected <- iso.alpha(country_choose(), n =2) %>% tolower()
+      
+      download.file(paste0("https://spotifycharts.com/regional/",
+                           selected, "/daily/latest/download"), 
+                    destfile = paste0("top200", selected,".csv"))
+      top_200 <- read.csv(paste0("top200", selected, ".csv"),
+                          stringsAsFactors = FALSE, fileEncoding = "UTF8")
+      top_200 <- data.frame(top_200) %>%
+        rename("Track Name" = Track.Name) %>%
+        select(Position, 'Track Name', Artist)
+      top_200
+  }))
     
 }
 
