@@ -1,3 +1,9 @@
+## James Kim, Joe Ubelhart, Timmy Tang, Owen DeArmond-MacLeod
+## Section AD
+
+## install.packages('DT')
+
+library(DT)
 library(httr)
 library(jsonlite)
 library(dplyr)
@@ -67,15 +73,47 @@ top_100_df <- right_join(top_100_df, top_100, by = "id")
 # ggplot(top_100_df, aes(Position, tempo, size = Streams, color = time_signature)) +
 #   geom_point()
 
+# Owen's Work
 # trying to get track objects instead of audio-features
+
+mod_ids <- head(id_query, n = 3)
+
+query2 <- list("ids" = mod_ids)
+
+paste0(base_uri,"?ids=", query2)
 
 tracks_list_endpoint <- paste0(base_uri, "tracks")
 top_100_tracks <- GET(
-  url = tracks_list_endpoint, 
-  query = list("ids" = id_query),
+  url <- paste0("https://api.spotify.com/v1/tracks/?ids=", id_query),
   add_headers("Authorization" = header_key)
 )
 
 top_tracks_content <- content(top_100_tracks)
 
 top_tracks_df <- do.call(rbind.data.frame, top_tracks_content[[1]])
+
+
+
+## James's Work
+top_100_df_james <- top_100_df %>% 
+  rename("Track Name" = Track.Name,
+         "Danceability" = danceability,
+         "Energy" = energy,
+         "Key" = key,
+         "Loudness" = loudness,
+         "Speechiness" = speechiness,
+         "Acousticness" = acousticness,
+         "Instrumentalness" = instrumentalness,
+         "Liveness" = liveness,
+         "Valence" = valence,
+         "Tempo" = tempo) %>% 
+  select("Track Name", "Artist", "Acousticness", "Danceability", "Energy",
+         "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness",  
+         "Tempo", "Valence")
+
+column_names_james <- top_100_df_james %>% 
+  select("Acousticness", "Danceability", "Energy",
+         "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness",  
+         "Tempo", "Valence")
+  
+
