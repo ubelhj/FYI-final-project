@@ -144,7 +144,7 @@ response <- GET(
   add_headers("Authorization" = header_key)
 )
 
-body <- content(top_50_tracks, "text")
+body <- content(response, "text")
 
 parsed_top_50 <- fromJSON(body)
 
@@ -152,8 +152,9 @@ top_50_df <- data.frame(parsed_top_50)
 
 top_50 <- top_50_df %>% 
   rename(
-    tracks.name = "Name",
-    tracks.disc_number = "Position (In Album)",
-    tracks.explicit = "Explicit",
-    tracks.popularity = "Popularity"
-  )
+    "Name" = tracks.name,
+    "Position" = tracks.disc_number,
+    "Explicit" = tracks.explicit,
+    "Popularity" = tracks.popularity
+  ) %>% 
+  select(Name, Position, "Explicit", "Popularity")

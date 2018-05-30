@@ -61,17 +61,17 @@ ui <- navbarPage("Exploring Music",
             )
           )
         ),
-        tabPanel("Map",
-          sidebarLayout(
-            sidebarPanel(
-              p("temp")
-            ),
-            mainPanel(
-             p("temp")
-            )
-          )
+        tabPanel("Track Traits",
+                 sidebarLayout(
+                   sidebarPanel(
+                     p("temp")
+                   ),
+                   mainPanel(
+                     plotlyOutput("plot2")
+                   )
+                 )
         ),
-        tabPanel("Random",
+        tabPanel("Map",
           sidebarLayout(
             sidebarPanel(
               p("temp")

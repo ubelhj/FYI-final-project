@@ -202,6 +202,15 @@ server <- function(input, output) {
   
 ## Owen's Server Portion
 
+  output$plot2 <- renderPlotly({
+    
+    top_50 %>% 
+      plot_ly(x = jitter(0), y = ~Popularity, color = ~Explicit,
+              text = paste0("Explicit: ", ~Explicit, "Name: ", ~Name)
+              )
+    
+  })
+  
 ## Timmy's Server Portion
   
   
