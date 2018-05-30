@@ -1,7 +1,6 @@
 source("global.R")
 
 ui <- navbarPage("Exploring Music", 
-        includeCSS("style.css"),
         tabPanel("Home", 
           sidebarLayout(position = "right",
             sidebarPanel(
@@ -90,8 +89,8 @@ ui <- navbarPage("Exploring Music",
                    ),
                    mainPanel(
                      plotlyOutput("plot2"),
-                     htmlOutput("more_info")
-
+                     htmlOutput("more_info"),
+                     textOutput("analysis_two")
                    )
                  )
         ),
@@ -104,7 +103,8 @@ ui <- navbarPage("Exploring Music",
             ),
             mainPanel(
               h2("Map of Countries With Spotify"),
-              ggiraphOutput("plot_map")
+              ggiraphOutput("plot_map"),
+              htmlOutput("map_statement")
             )
           )
         ),

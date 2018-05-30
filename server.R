@@ -137,6 +137,16 @@ server <- function(input, output) {
            audio_one(), "</b> and <b>", audio_two(), "</b>")
     )
   })
+  output$analysis_two <- renderText({
+    paste0(
+      "We originally wondered if track traits, such as song length could contribute
+      to a song's popularity as well. The answer is also no. The top 50
+      songs are scattered randomly, with no correlation, similar to audio features."
+    )
+  })
+  output$map_statement <- renderText({
+    HTML(paste0("Spotify is available in <b>", nrow(has_data), "</b> Countries."))
+  })
   ## Output for data table
   output$table_one <- DT::renderDataTable(DT::datatable({
     top_100_df_james %>% select("Track Name", "Artist", audio_one(), audio_two())
@@ -217,7 +227,7 @@ server <- function(input, output) {
       "Before looking at the data, we wondered, what if audio features such ",
       "as Tempo affected a song's popularity. The answer is no. The top 100 ",
       "global songs are scattered reasonably randomly, with no correlation. This ",
-      "conclusion, in hindsight, seems pretty apparent. People's music tastes vary,",
+      "conclusion, in hindsight, seems pretty apparent. People's music tastes vary, ",
       "and even, a single album has many different beats and styles."
     )
   })
@@ -309,7 +319,7 @@ server <- function(input, output) {
                           stringsAsFactors = FALSE, fileEncoding = "UTF8")
       top_200 <- data.frame(top_200) %>%
         rename("Track Name" = Track.Name) %>%
-        select(Position, 'Track Name', Artist)
+        select('Track Name', Artist)
       top_200
   }))
     
