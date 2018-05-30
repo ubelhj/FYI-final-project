@@ -220,17 +220,17 @@ server <- function(input, output) {
       "and even, a single album has many different beats and styles."
     )
   })
-  
-## Owen's Server Portion
+
+#################
+## Owen's Work ##
+#################
 
   output$plot2 <- renderPlotly({
     
-    top_50 %>% 
-      plot_ly(x = jitter(0), y = ~Popularity, color = ~Explicit,
-              text = paste0("Explicit: ", ~Explicit, "Name: ", ~Name)
-              )
+    plot_ly(top_50_, x = ~Popularity, y = ~Length)
     
   })
+#################
   
 ## Timmy's Server Portion
   country_choose <- reactive({

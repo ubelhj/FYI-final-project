@@ -62,6 +62,11 @@ ui <- navbarPage("Exploring Music",
             )
           )
         ),
+        
+        #################
+        ## Owen's Work ##
+        #################
+        
         tabPanel("Track Traits",
                  sidebarLayout(
                    sidebarPanel(
@@ -72,6 +77,7 @@ ui <- navbarPage("Exploring Music",
                    )
                  )
         ),
+        #################
         tabPanel("Spotify Availability",
           sidebarLayout(
             sidebarPanel(

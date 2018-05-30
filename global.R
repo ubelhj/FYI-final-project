@@ -198,7 +198,10 @@ data_has <- right_join(world_map, has_data, by = "Country_desig")
 
 combine$highlight[is.na(combine$highlight)] <- F
 
-## Owen's WOrk
+#################
+## Owen's Work ##
+#################
+
 
 top_50 <- top_100 %>%
   select(id) %>% 
@@ -219,12 +222,16 @@ parsed_top_50 <- fromJSON(body)
 
 top_50_df <- data.frame(parsed_top_50)
 
-top_50 <- top_50_df %>% 
+top_50_ <- top_50_df %>% 
   rename(
     "Name" = tracks.name,
     "Position" = tracks.disc_number,
     "Explicit" = tracks.explicit,
     "Popularity" = tracks.popularity
   ) %>% 
-  select(Name, Position, "Explicit", "Popularity")
->>>>>>> 2f59b05ba6883825f6fa1e4e3712305951f3a282
+  mutate(
+    "Length" = tracks.duration_ms / 1000
+  ) %>% 
+  select(Name, Position, Explicit, Popularity, Length)
+
+#################
