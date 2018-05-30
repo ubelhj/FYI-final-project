@@ -50,7 +50,8 @@ ui <- navbarPage("Exploring Music",
                           tabPanel("Visual", 
                                    p("  "),
                                    plotlyOutput("plot"),
-                                   htmlOutput("features_click")),
+                                   htmlOutput("features_click"),
+                                   textOutput("features_analysis")),
                           tabPanel("Table", 
                                    p("  "),
                                    DT::dataTableOutput("table_one")),
@@ -130,5 +131,6 @@ ui <- navbarPage("Exploring Music",
           )
         )
       )
+
 
 shinyUI(ui)

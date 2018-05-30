@@ -65,6 +65,9 @@ server <- function(input, output) {
                per minute(BPM). In musical terminology, tempo is the speed or pace of a
                given piece and derives directly from the average beat duration."))
     }
+    if(audio_one() == "Streams") {
+      one <- HTML(paste0("<b>Streams: </b> The total global streams of each song yesterday"))
+    }
     one
   })
   output$definition_two <- renderText({
@@ -120,6 +123,9 @@ server <- function(input, output) {
       two <- HTML(paste0("<b>Tempo: </b> The overall estimated tempo of a track in beats
                          per minute(BPM). In musical terminology, tempo is the speed or pace of a
                          given piece and derives directly from the average beat duration."))
+    }
+    if(audio_two() == "Streams") {
+      two <- HTML(paste0("<b>Streams: </b> The total global streams of each song yesterday"))
     }
     two
     })
@@ -200,6 +206,16 @@ server <- function(input, output) {
     )
   })
   
+  output$features_analysis <- renderText({
+    paste0(
+      "Before looking at the data, we wondered, what if audio features such ",
+      "as Tempo affected a song's popularity. The answer is no. The top 100 ",
+      "global songs are scattered fairly randomly, with no correlation. This ",
+      "in hindsight seems pretty obvious. People's music tastes vary, and even",
+      " a single album has many different beats and styles."
+    )
+  })
+  
 ## Owen's Server Portion
 
   output$plot2 <- renderPlotly({
@@ -212,9 +228,40 @@ server <- function(input, output) {
   })
   
 ## Timmy's Server Portion
+  output$plot <- renderPlot({ 
+    ggplot(data = combine) +
+      geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = highlight), color = "white") +
+      coord_quickmap() +
+      labs(
+        title = "Click to see a country's top 5 songs!",
+        x = "",
+        y = ""
+      ) + 
+      theme(axis.line=element_blank(),axis.text.x=element_blank(),
+            axis.text.y=element_blank(),axis.ticks=element_blank(),
+            axis.title.x=element_blank(),
+            axis.title.y=element_blank(),
+            panel.background=element_blank(),panel.border=element_blank(), 
+            panel.grid.major=element_blank(),
+            panel.grid.minor=element_blank(),plot.background=element_blank(), 
+            plot.title = element_text(hjust = 0.5),
+            legend.position="none"
+      )
+    
+  })
+
   
-  
-  
+  output$top10table <- renderTable({
+      selected <- iso.alpha(input$countries, n =2) %>% tolower()
+      
+      download.file(paste0("https://spotifycharts.com/regional/", selected, "/daily/latest/download"), 
+                    destfile = paste0("top200", selected,".csv"))
+      top_200 <- read.csv(paste0("top200", selected, ".csv"), stringsAsFactors = FALSE, fileEncoding = "UTF8")
+      top_200 <- data.frame(top_200) %>% select(Position, Track.Name, Artist)
+      top_200
+    
+
+  })
     
 }
 

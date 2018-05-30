@@ -10,9 +10,15 @@ library(dplyr)
 library(shiny)
 library(ggplot2)
 library(plotly)
+library(maps)
+
 source("apikeys.R")
 
 ## Authorization
+
+prev_oauth <- "./.httr-oathr"
+if (file.exists(prev_oauth)) file.remove(prev_oauth)
+
 spotify_auth <- oauth_endpoint(
   authorize = "https://accounts.spotify.com/authorize",
   access = "https://accounts.spotify.com/api/token"
@@ -117,6 +123,86 @@ column_names_james <- top_100_df_james %>%
   select("Acousticness", "Danceability", "Energy",
          "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness",  
          "Tempo", "Valence")
+  
+## Timmy's work
+
+country_code <- c("us",
+                     "gb",
+                     "ad",
+                     "ar",
+                     "at",
+                     "au",
+                     "be",
+                     "bg",
+                     "bo",
+                     "br",
+                     "ca",
+                     "ch",
+                     "cl",
+                     "co",
+                     "cr",
+                     "cy",
+                     "cz",
+                     "de",
+                     "dk",
+                     "do",
+                     "ec",
+                     "ee",
+                     "es",
+                     "fi",
+                     "fr",
+                     "gr",
+                     "gt",
+                     "hk",
+                     "hn",
+                     "hu",
+                     "id",
+                     "ie",
+                     "il",
+                     "is",
+                     "it",
+                     "jp",
+                     "lt",
+                     "lu",
+                     "lv",
+                     "mc",
+                     "mt",
+                     "mx",
+                     "my",
+                     "ni",
+                     "nl",
+                     "no",
+                     "nz",
+                     "pa",
+                     "pe",
+                     "ph",
+                     "pl",
+                     "pt",
+                     "py",
+                     "ro",
+                     "se",
+                     "sg",
+                     "sk",
+                     "sv",
+                     "th",
+                     "tr",
+                     "tw",
+                     "uy",
+                     "vn") %>% toupper()
+world_map <- map_data("world") %>% group_by(region)
+world_map$Country_desig = iso.alpha(world_map$region, n = 2)
+
+has_data <- data.frame("Country_desig" = country_code, "highlight" = T)
+combine <- left_join(world_map, has_data, by = "Country_desig")
+
+data_has <- right_join(world_map, has_data, by = "Country_desig")
+
+
+combine$highlight[is.na(combine$highlight)] <- F
+
+
+
+
 
 # plot_ly(top_100_df_james, x = ~get(audio_one()), y = ~get(audio_two(), size = Streams),
 #         text = ~paste0("Track Name: ", `Track Name`, 
