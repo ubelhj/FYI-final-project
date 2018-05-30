@@ -223,13 +223,13 @@ top_50_df <- data.frame(parsed_top_50)
 
 top_50 <- top_50_df %>% 
   rename(
-    "Name" = tracks.name,
+    "Track Name" = tracks.name,
     "Position" = tracks.disc_number,
     "Explicit" = tracks.explicit,
     "Popularity" = tracks.popularity,
     "Length" = tracks.duration_ms
   ) %>% 
-  select(Name, Position, Explicit, Popularity, Length) %>% 
+  select("Track Name", Position, Explicit, Popularity, Length) %>% 
   mutate(
     Length = Length / 1000
   )

@@ -70,11 +70,25 @@ ui <- navbarPage("Exploring Music",
         tabPanel("Track Traits",
                  sidebarLayout(
                    sidebarPanel(
-                     p("temp")
+                     h4(strong("Directions")),
+                     p("Hover over each point to see the top 50 songs
+                       and their track information"),
+                     p(strong("Black dots refer to explicit songs")),
+                     p(strong("White dots refer to non-explicit songs")),
+                     h4(strong("Definitions:")),
+                     p(strong("Explicit - "), "An explicit track is one that has
+                       curse words or language or art that is sexual, violent
+                       or offensive in nature."),
+                     p(em(strong("Note: "), "The explicit content tags are applied
+                       based on information Spotify receives from rights-holders.")),
+                     p(strong("Popularity - "), "The popularity of the track. The
+                       value will be between 0 and 100, with 100 being the most
+                       popular. The popularity of a track is a value between 0
+                       and 100, with 100 being the most popular."),
+                     p(strong("Length -"), "The track length in Seconds")
                    ),
                    mainPanel(
                      plotlyOutput("plot2"),
-                     p("Dark Grey = explicit"),
                      htmlOutput("more_info")
                    )
                  )

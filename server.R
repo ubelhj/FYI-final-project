@@ -211,6 +211,7 @@ server <- function(input, output) {
     )
   })
   
+  ## Analysis Output
   output$features_analysis <- renderText({
     paste0(
       "Before looking at the data, we wondered, what if audio features such ",
@@ -225,36 +226,48 @@ server <- function(input, output) {
 ## Owen's Work ##
 #################
 
+  ## Click Feature
   output$more_info <- renderText({
     point <- event_data("plotly_click")
     paste0(
       "<h4><b><u>Song Information</u></b>",
-      "<br><b>Track Name: </b>"#,
-      #filter(top_50$Popularity == point$pointNumber)
+      "<br><b>Track Name: </b>",
+      top_50[(point$pointNumber + 1), "Track Name"],
+      "<br><b>Explicit? </b>",
+      top_50[(point$pointNumber + 1), "Explicit"],
+      "<br><b>Popularity: </b>",
+      top_50[(point$pointNumber + 1), "Popularity"],
+      "<br><b>Length: </b>",
+      top_50[(point$pointNumber + 1), "Length"]
     )
   })
-  
+  ## Outputs Plot
   output$plot2 <- renderPlotly({
-    
-    plot_ly(top_50, x = ~Popularity, y = ~Length, text = top_50$Name, color = ~Explicit) %>% 
-      layout(
-        xlab("Popularity Ranking"),
-        ylab("Length (Seconds)"),
-        showlegend = FALSE
-      )
-    
+    plot_ly(top_50, x = ~Popularity, y = ~Length, text = ~paste0("Track Name: ", `Track Name`,
+                                                                 "<br>Explicit? ", `Explicit`,
+                                                                 "<br>Popularity: ", `Popularity`,
+                                                                 "<br>Length: ", `Length`), 
+            color = ~Explicit, colors = c("#1DB954", "#191414"), sizes = 4) %>% 
+              layout(title = "Popularity vs Length",
+                     xlab("Popularity Ranking"),
+                     ylab("Length (Seconds)"),
+                     showlegend = FALSE)
   })
 #################
   
 ## Timmy's Server Portion
+  
+  ## Reactive Function
   country_choose <- reactive({
     input$countries
   })
-
+  
+  ## Outputs the statements
   output$statement_two <- renderText({
     HTML(paste0(country_choose(), "'s Top 200 Songs")
     )
-  })  
+  })
+  ## Creates the map
   output$plot_map <- renderggiraph({ 
     map_plot <- ggplot(data = combine) +
                   geom_polygon_interactive(
@@ -285,7 +298,7 @@ server <- function(input, output) {
     
   })
 
-  
+  ## Outputs a table
   output$top10table <- DT::renderDataTable(DT::datatable({
       selected <- iso.alpha(country_choose(), n =2) %>% tolower()
       
