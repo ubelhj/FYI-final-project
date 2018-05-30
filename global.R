@@ -78,6 +78,7 @@ top_100_df <- do.call(rbind.data.frame, top_100_content[[1]])
 
 top_100_df <- right_join(top_100_df, top_100, by = "id")
 
+
 top_100_df[is.na(top_100_df)] <- 0
 
 ## Test animated metronome
@@ -100,6 +101,7 @@ top_100_df[is.na(top_100_df)] <- 0
 #   ) %>% 
 #   animation_opts(frame = 60000 / animation_test_row$tempo, mode = "next")
 # p
+
 
 
 ## James's Work
@@ -196,7 +198,9 @@ data_has <- right_join(world_map, has_data, by = "Country_desig")
 
 combine$highlight[is.na(combine$highlight)] <- F
 
-## Owen's WOrk
+#################
+## Owen's Work ##
+#################
 
 top_50 <- top_100 %>%
   select(id) %>% 
@@ -222,6 +226,12 @@ top_50 <- top_50_df %>%
     "Name" = tracks.name,
     "Position" = tracks.disc_number,
     "Explicit" = tracks.explicit,
-    "Popularity" = tracks.popularity
+    "Popularity" = tracks.popularity,
+    "Length" = tracks.duration_ms
   ) %>% 
-  select(Name, Position, "Explicit", "Popularity")
+  select(Name, Position, Explicit, Popularity, Length) %>% 
+  mutate(
+    Length = Length / 1000
+  )
+
+#################

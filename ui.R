@@ -62,16 +62,24 @@ ui <- navbarPage("Exploring Music",
             )
           )
         ),
+        
+        #################
+        ## Owen's Work ##
+        #################
+        
         tabPanel("Track Traits",
                  sidebarLayout(
                    sidebarPanel(
                      p("temp")
                    ),
                    mainPanel(
-                     plotlyOutput("plot2")
+                     plotlyOutput("plot2"),
+                     p("Dark Grey = explicit"),
+                     htmlOutput("more_info")
                    )
                  )
         ),
+        #################
         tabPanel("Spotify Availability",
           sidebarLayout(
             sidebarPanel(
