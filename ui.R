@@ -106,7 +106,7 @@ ui <- navbarPage("Exploring Music",
             )
           )
         ),
-        tabPanel("Country's Top 200 Songs",
+        tabPanel("View a Country's Top 200 Songs",
                  sidebarLayout(
                    sidebarPanel(
                      h4(strong("Directions")),
