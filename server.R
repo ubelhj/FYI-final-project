@@ -139,8 +139,12 @@ server <- function(input, output) {
     average_one <- ~paste0(audio_one(), "Average")
     average_two <- ~paste0(audio_two(), "Average")
     top_100_df_james %>% select(audio_one(), audio_two()) %>% 
-      summarize(average_one = mean(get(audio_one())),
-                average_two = mean(get(audio_two()))
+      summarize("Average for First Audio Trait" = mean(get(audio_one())),
+                "Max for First Audio Trait" = max(get(audio_one())),
+                "Min for First Audio Trait" = min(get(audio_one())),
+                "Average for Second Audio Trait" = mean(get(audio_two())),
+                "Max for Second Audio Trait" = max(get(audio_two())),
+                "Min for Second Audio Trait" = min(get(audio_two()))
       )
   }))
   

@@ -10,6 +10,7 @@ library(dplyr)
 library(shiny)
 library(ggplot2)
 library(plotly)
+library(maps)
 source("apikeys.R")
 
 ## Authorization
@@ -117,13 +118,3 @@ column_names_james <- top_100_df_james %>%
          "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness",  
          "Tempo", "Valence")
   
-# 
-# plot_ly(top_100_df_james, x = ~get(audio_one()), y = ~get(audio_two(), size = Streams),
-#         text = ~paste0("Track Name: ", `Track Name`, 
-#                        "<br>Artist: ", `Artist`,
-#                        "<br>", audio_one(), ": ", get(audio_one()),
-#                        "<br>", audio_two(), ": ", get(audio_two())),
-#                        "<br>Streams: ", `Streams`) %>% 
-#   layout(title = title, 
-#          xaxis = x, 
-#          yaxis = y)
