@@ -68,7 +68,7 @@ ui <- navbarPage("Exploring Music",
                      p("temp")
                    ),
                    mainPanel(
-                     plotlyOutput("plot2")
+                     #plotlyOutput("plot2")
                    )
                  )
         ),

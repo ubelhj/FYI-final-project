@@ -15,8 +15,6 @@ source("apikeys.R")
 
 ## Authorization
 
-prev_oauth <- "./.httr-oathr"
-if (file.exists(prev_oauth)) file.remove(prev_oauth)
 
 spotify_auth <- oauth_endpoint(
   authorize = "https://accounts.spotify.com/authorize",
