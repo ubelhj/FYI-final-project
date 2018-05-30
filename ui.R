@@ -75,7 +75,8 @@ ui <- navbarPage("Exploring Music",
         tabPanel("Spotify Availability",
           sidebarLayout(
             sidebarPanel(
-              p("This map shows all the countries where Spotify is available.")
+              h4(strong("Directions")),
+              p("Hover over each Country to see if Spotify is available.")
             ),
             mainPanel(
               h2("Map of Countries With Spotify"),
@@ -86,9 +87,11 @@ ui <- navbarPage("Exploring Music",
         tabPanel("Country's Top 200 Songs",
                  sidebarLayout(
                    sidebarPanel(
+                     h4(strong("Directions")),
                      p("Select a Country to View Top 200 Songs"),
                      selectInput("countries", label = "Country", data_has$region %>% unique(), selected = NULL, multiple = FALSE,
-                                 selectize = TRUE, width = NULL, size = NULL)
+                                 selectize = TRUE, width = NULL, size = NULL),
+                     p(strong("Note:"), "These are the Countries that have Spotify available within them.")
                    ),
                    mainPanel(
                      h2(htmlOutput("statement_two")),

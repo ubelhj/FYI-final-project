@@ -214,9 +214,9 @@ server <- function(input, output) {
     paste0(
       "Before looking at the data, we wondered, what if audio features such ",
       "as Tempo affected a song's popularity. The answer is no. The top 100 ",
-      "global songs are scattered fairly randomly, with no correlation. This ",
-      "in hindsight seems pretty obvious. People's music tastes vary, and even",
-      " a single album has many different beats and styles."
+      "global songs are scattered reasonably randomly, with no correlation. This ",
+      "conclusion, in hindsight, seems pretty apparent. People's music tastes vary,",
+      "and even, a single album has many different beats and styles."
     )
   })
   

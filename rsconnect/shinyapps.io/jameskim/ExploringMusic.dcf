@@ -1,0 +1,13 @@
+name: ExploringMusic
+title: ExploringMusic
+username:
+account: jameskim
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 350949
+bundleId: 1399686
+url: https://jameskim.shinyapps.io/ExploringMusic/
+when: 1527655634.44197
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: logos/1.png|logos/2.png|logos/3.png
