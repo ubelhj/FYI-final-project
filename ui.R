@@ -85,7 +85,7 @@ ui <- navbarPage("Exploring Music",
                        value will be between 0 and 100, with 100 being the most
                        popular. The popularity of a track is a value between 0
                        and 100, with 100 being the most popular."),
-                     p(strong("Length -"), "The track length in Seconds")
+                     p(strong("Length -"), "The track length in seconds.")
                    ),
                    mainPanel(
                      plotlyOutput("plot2"),
