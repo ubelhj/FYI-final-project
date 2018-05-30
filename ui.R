@@ -1,6 +1,7 @@
 source("global.R")
 
 ui <- navbarPage("Exploring Music", 
+        includeCSS("style.css"),
         tabPanel("Home", 
           sidebarLayout(position = "right",
             sidebarPanel(
@@ -161,7 +162,8 @@ ui <- navbarPage("Exploring Music",
                 h5(strong("James Kim:")),
                 p("Hello! I like to code."),
                 h5(strong("Joe Ubelhart:")),
-                p(""),
+                p("I hope to go into the Informatics major and am a part of ",
+                  "the Husky Marching Band"),
                 h5(strong("Timmy Tang:")),
                 p("I am Timmy Tang, who enjoys listening to music."),
                 h5(strong("Owen DeArmond-MacLeod:")),
