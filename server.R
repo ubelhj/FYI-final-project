@@ -225,9 +225,23 @@ server <- function(input, output) {
 ## Owen's Work ##
 #################
 
+  output$more_info <- renderText({
+    point <- event_data("plotly_click")
+    paste0(
+      "<h4><b><u>Song Information</u></b>",
+      "<br><b>Track Name: </b>"#,
+      #filter(top_50$Popularity == point$pointNumber)
+    )
+  })
+  
   output$plot2 <- renderPlotly({
     
-    plot_ly(top_50_, x = ~Popularity, y = ~Length)
+    plot_ly(top_50, x = ~Popularity, y = ~Length, text = top_50$Name, color = ~Explicit) %>% 
+      layout(
+        xlab("Popularity Ranking"),
+        ylab("Length (Seconds)"),
+        showlegend = FALSE
+      )
     
   })
 #################

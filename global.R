@@ -202,7 +202,6 @@ combine$highlight[is.na(combine$highlight)] <- F
 ## Owen's Work ##
 #################
 
-
 top_50 <- top_100 %>%
   select(id) %>% 
   head(n = 50)
@@ -222,16 +221,17 @@ parsed_top_50 <- fromJSON(body)
 
 top_50_df <- data.frame(parsed_top_50)
 
-top_50_ <- top_50_df %>% 
+top_50 <- top_50_df %>% 
   rename(
     "Name" = tracks.name,
     "Position" = tracks.disc_number,
     "Explicit" = tracks.explicit,
-    "Popularity" = tracks.popularity
+    "Popularity" = tracks.popularity,
+    "Length" = tracks.duration_ms
   ) %>% 
+  select(Name, Position, Explicit, Popularity, Length) %>% 
   mutate(
-    "Length" = tracks.duration_ms / 1000
-  ) %>% 
-  select(Name, Position, Explicit, Popularity, Length)
+    Length = Length / 1000
+  )
 
 #################
