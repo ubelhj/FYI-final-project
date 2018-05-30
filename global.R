@@ -213,8 +213,6 @@ response <- GET(
   add_headers("Authorization" = header_key)
 )
 
-<<<<<<< HEAD
-=======
 body <- content(response, "text")
 
 parsed_top_50 <- fromJSON(body)
