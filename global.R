@@ -189,12 +189,14 @@ country_code <- c("us",
                      "tw",
                      "uy",
                      "vn") %>% toupper()
+world_map <- map_data("world") %>% group_by(region)
+world_map$Country_desig = iso.alpha(world_map$region, n = 2)
 
 has_data <- data.frame("Country_desig" = country_code, "highlight" = T)
 combine <- left_join(world_map, has_data, by = "Country_desig")
 
-world_map <- map_data("world") %>% group_by(region)
-world_map$Country_desig = iso.alpha(world_map$region, n = 2)
+data_has <- right_join(world_map, has_data, by = "Country_desig")
+
 
 combine$highlight[is.na(combine$highlight)] <- F
 

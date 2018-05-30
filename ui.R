@@ -1,6 +1,5 @@
 source("global.R")
 
-<<<<<<< HEAD
 ui <- navbarPage("Exploring Music Through Spotify", 
                  tabPanel("Home", 
                           sidebarLayout(position = "right",
@@ -60,10 +59,13 @@ ui <- navbarPage("Exploring Music Through Spotify",
                  tabPanel("Chloropleth Map",
                           sidebarLayout(
                             sidebarPanel(
-                              plotOutput("plot", click = "plot_click")
+                              p("Click on a teal colored country to see that country's top 5 songs"),
+                              selectInput("countries", label = "country", data_has$region %>% unique(), selected = NULL, multiple = FALSE,
+                                          selectize = TRUE, width = NULL, size = NULL),
+                              tableOutput("top10table")
                             ),
                             mainPanel(
-                              p("temp")
+                              plotOutput("plot", click = "plot_click")
                             )
                           )
                  ),

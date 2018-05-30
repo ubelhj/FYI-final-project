@@ -208,7 +208,7 @@ server <- function(input, output) {
       geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = highlight), color = "white") +
       coord_quickmap() +
       labs(
-        title = "Spotify in the World",
+        title = "Click to see a country's top 5 songs!",
         x = "",
         y = ""
       ) + 
@@ -224,7 +224,19 @@ server <- function(input, output) {
       )
     
   })
+
   
+  output$top10table <- renderTable({
+      selected <- iso.alpha(input$countries, n =2) %>% tolower()
+      
+      download.file(paste0("https://spotifycharts.com/regional/", selected, "/daily/latest/download"), 
+                    destfile = paste0("top200", selected,".csv"))
+      top_200 <- read.csv(paste0("top200", selected, ".csv"), stringsAsFactors = FALSE, fileEncoding = "UTF8")
+      top_200 <- data.frame(top_200) %>% select(Position, Track.Name, Artist)
+      top_200
+    
+
+  })
     
 }
 
