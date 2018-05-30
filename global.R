@@ -11,7 +11,6 @@ library(shiny)
 library(ggplot2)
 library(plotly)
 library(maps)
-
 source("apikeys.R")
 
 ## Authorization
@@ -199,21 +198,6 @@ data_has <- right_join(world_map, has_data, by = "Country_desig")
 
 
 combine$highlight[is.na(combine$highlight)] <- F
-
-
-
-
-
-# plot_ly(top_100_df_james, x = ~get(audio_one()), y = ~get(audio_two(), size = Streams),
-#         text = ~paste0("Track Name: ", `Track Name`, 
-#                        "<br>Artist: ", `Artist`,
-#                        "<br>", audio_one(), ": ", get(audio_one()),
-#                        "<br>", audio_two(), ": ", get(audio_two())),
-#                        "<br>Streams: ", `Streams`) %>% 
-#   layout(title = title, 
-#          xaxis = x, 
-#          yaxis = y)
-
 
 ## Owen's WOrk
 
