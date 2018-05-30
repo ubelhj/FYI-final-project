@@ -65,6 +65,9 @@ server <- function(input, output) {
                per minute(BPM). In musical terminology, tempo is the speed or pace of a
                given piece and derives directly from the average beat duration."))
     }
+    if(audio_one() == "Streams") {
+      one <- HTML(paste0("<b>Streams: </b> The total global streams of each song yesterday"))
+    }
     one
   })
   output$definition_two <- renderText({
@@ -120,6 +123,9 @@ server <- function(input, output) {
       two <- HTML(paste0("<b>Tempo: </b> The overall estimated tempo of a track in beats
                          per minute(BPM). In musical terminology, tempo is the speed or pace of a
                          given piece and derives directly from the average beat duration."))
+    }
+    if(audio_two() == "Streams") {
+      two <- HTML(paste0("<b>Streams: </b> The total global streams of each song yesterday"))
     }
     two
     })
@@ -197,6 +203,16 @@ server <- function(input, output) {
       top_100_df_james[(point$pointNumber + 1), audio_two()],
       "<br>",
       top_100_df_james[(point$pointNumber + 1), "Href"]
+    )
+  })
+  
+  output$features_analysis <- renderText({
+    paste0(
+      "Before looking at the data, we wondered, what if audio features such ",
+      "as Tempo affected a song's popularity. The answer is no. The top 100 ",
+      "global songs are scattered fairly randomly, with no correlation. This ",
+      "in hindsight seems pretty obvious. People's music tastes vary, and even",
+      " a single album has many different beats and styles."
     )
   })
   

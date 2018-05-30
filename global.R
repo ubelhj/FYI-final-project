@@ -121,8 +121,8 @@ top_100_df_james <- top_100_df %>%
   
 column_names_james <- top_100_df_james %>% 
   select("Acousticness", "Danceability", "Energy",
-         "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness",  
-         "Tempo", "Valence")
+         "Instrumentalness", "Key", "Liveness", "Loudness", "Speechiness", 
+         "Streams", "Tempo", "Valence")
   
 ## Timmy's work
 
@@ -214,4 +214,3 @@ combine$highlight[is.na(combine$highlight)] <- F
 #   layout(title = title, 
 #          xaxis = x, 
 #          yaxis = y)
-
