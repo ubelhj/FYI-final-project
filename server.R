@@ -219,9 +219,40 @@ server <- function(input, output) {
 ## Owen's Server Portion
 
 ## Timmy's Server Portion
+  output$plot <- renderPlot({ 
+    ggplot(data = combine) +
+      geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = highlight), color = "white") +
+      coord_quickmap() +
+      labs(
+        title = "Click to see a country's top 5 songs!",
+        x = "",
+        y = ""
+      ) + 
+      theme(axis.line=element_blank(),axis.text.x=element_blank(),
+            axis.text.y=element_blank(),axis.ticks=element_blank(),
+            axis.title.x=element_blank(),
+            axis.title.y=element_blank(),
+            panel.background=element_blank(),panel.border=element_blank(), 
+            panel.grid.major=element_blank(),
+            panel.grid.minor=element_blank(),plot.background=element_blank(), 
+            plot.title = element_text(hjust = 0.5),
+            legend.position="none"
+      )
+    
+  })
+
   
-  
-  
+  output$top10table <- renderTable({
+      selected <- iso.alpha(input$countries, n =2) %>% tolower()
+      
+      download.file(paste0("https://spotifycharts.com/regional/", selected, "/daily/latest/download"), 
+                    destfile = paste0("top200", selected,".csv"))
+      top_200 <- read.csv(paste0("top200", selected, ".csv"), stringsAsFactors = FALSE, fileEncoding = "UTF8")
+      top_200 <- data.frame(top_200) %>% select(Position, Track.Name, Artist)
+      top_200
+    
+
+  })
     
 }
 
