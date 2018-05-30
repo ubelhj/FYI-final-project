@@ -232,15 +232,30 @@ server <- function(input, output) {
   })
   
 ## Timmy's Server Portion
-  output$plot <- renderPlot({ 
-    ggplot(data = combine) +
-      geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = highlight), color = "white") +
+  country_choose <- reactive({
+    input$countries
+  })
+
+  output$statement_two <- renderText({
+    HTML(paste0(country_choose(), "'s Top 200 Songs")
+    )
+  })  
+  output$plot_map <- renderggiraph({ 
+    map_plot <- ggplot(data = combine) +
+                  geom_polygon_interactive(
+                    mapping = aes(x = long, 
+                                  y = lat, 
+                                  group = group, 
+                                  fill = highlight,
+                                  tooltip = sprintf("%s<br/>%s",
+                                                    region, 
+                                                    highlight)),
+                               color = "black") +
       coord_quickmap() +
-      labs(
-        title = "Click to see a country's top 5 songs!",
-        x = "",
-        y = ""
-      ) + 
+      scale_fill_manual(values = c("#FFFFFF", "#1DB954")) +
+      labs(title = "",
+           x = "",
+           y = "") + 
       theme(axis.line=element_blank(),axis.text.x=element_blank(),
             axis.text.y=element_blank(),axis.ticks=element_blank(),
             axis.title.x=element_blank(),
@@ -251,21 +266,24 @@ server <- function(input, output) {
             plot.title = element_text(hjust = 0.5),
             legend.position="none"
       )
+    ggiraph(code = {print(map_plot)})
     
   })
 
   
-  output$top10table <- renderTable({
-      selected <- iso.alpha(input$countries, n =2) %>% tolower()
+  output$top10table <- DT::renderDataTable(DT::datatable({
+      selected <- iso.alpha(country_choose(), n =2) %>% tolower()
       
-      download.file(paste0("https://spotifycharts.com/regional/", selected, "/daily/latest/download"), 
+      download.file(paste0("https://spotifycharts.com/regional/",
+                           selected, "/daily/latest/download"), 
                     destfile = paste0("top200", selected,".csv"))
-      top_200 <- read.csv(paste0("top200", selected, ".csv"), stringsAsFactors = FALSE, fileEncoding = "UTF8")
-      top_200 <- data.frame(top_200) %>% select(Position, Track.Name, Artist)
+      top_200 <- read.csv(paste0("top200", selected, ".csv"),
+                          stringsAsFactors = FALSE, fileEncoding = "UTF8")
+      top_200 <- data.frame(top_200) %>%
+        rename("Track Name" = Track.Name) %>%
+        select(Position, 'Track Name', Artist)
       top_200
-    
-
-  })
+  }))
     
 }
 
