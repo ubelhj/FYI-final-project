@@ -1,5 +1,6 @@
 source("global.R")
 
+
 server <- function(input, output) {
   
   ## James's Server Portion
@@ -210,37 +211,79 @@ server <- function(input, output) {
     )
   })
   
+  ## Analysis Output
   output$features_analysis <- renderText({
     paste0(
       "Before looking at the data, we wondered, what if audio features such ",
       "as Tempo affected a song's popularity. The answer is no. The top 100 ",
-      "global songs are scattered fairly randomly, with no correlation. This ",
-      "in hindsight seems pretty obvious. People's music tastes vary, and even",
-      " a single album has many different beats and styles."
+      "global songs are scattered reasonably randomly, with no correlation. This ",
+      "conclusion, in hindsight, seems pretty apparent. People's music tastes vary,",
+      "and even, a single album has many different beats and styles."
     )
   })
-  
-## Owen's Server Portion
 
-  output$plot2 <- renderPlotly({
-    
-    top_50 %>% 
-      plot_ly(x = jitter(0), y = ~Popularity, color = ~Explicit,
-              text = paste0("Explicit: ", ~Explicit, "Name: ", ~Name)
-              )
-    
+#################
+## Owen's Work ##
+#################
+
+  ## Click Feature
+  output$more_info <- renderText({
+    point <- event_data("plotly_click")
+    paste0(
+      "<h4><b><u>Song Information</u></b>",
+      "<br><b>Track Name: </b>",
+      top_50[(point$pointNumber + 1), "Track Name"],
+      "<br><b>Explicit? </b>",
+      top_50[(point$pointNumber + 1), "Explicit"],
+      "<br><b>Popularity: </b>",
+      top_50[(point$pointNumber + 1), "Popularity"],
+      "<br><b>Length: </b>",
+      top_50[(point$pointNumber + 1), "Length"]
+    )
   })
+  ## Outputs Plot
+  output$plot2 <- renderPlotly({
+    plot_ly(top_50, x = ~Popularity, y = ~Length, text = ~paste0("Track Name: ", `Track Name`,
+                                                                 "<br>Explicit? ", `Explicit`,
+                                                                 "<br>Popularity: ", `Popularity`,
+                                                                 "<br>Length: ", `Length`), 
+            color = ~Explicit, colors = c("#1DB954", "#191414"), sizes = 4) %>% 
+              layout(title = "Popularity vs Length",
+                     xlab("Popularity Ranking"),
+                     ylab("Length (Seconds)"),
+                     showlegend = FALSE)
+  })
+#################
   
 ## Timmy's Server Portion
-  output$plot <- renderPlot({ 
-    ggplot(data = combine) +
-      geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = highlight), color = "white") +
+  
+  ## Reactive Function
+  country_choose <- reactive({
+    input$countries
+  })
+  
+  ## Outputs the statements
+  output$statement_two <- renderText({
+    HTML(paste0(country_choose(), "'s Top 200 Songs")
+    )
+  })
+  ## Creates the map
+  output$plot_map <- renderggiraph({ 
+    map_plot <- ggplot(data = combine) +
+                  geom_polygon_interactive(
+                    mapping = aes(x = long, 
+                                  y = lat, 
+                                  group = group, 
+                                  fill = highlight,
+                                  tooltip = sprintf("%s<br/>%s",
+                                                    region, 
+                                                    highlight)),
+                               color = "black") +
       coord_quickmap() +
-      labs(
-        title = "Click to see a country's top 5 songs!",
-        x = "",
-        y = ""
-      ) + 
+      scale_fill_manual(values = c("#FFFFFF", "#1DB954")) +
+      labs(title = "",
+           x = "",
+           y = "") + 
       theme(axis.line=element_blank(),axis.text.x=element_blank(),
             axis.text.y=element_blank(),axis.ticks=element_blank(),
             axis.title.x=element_blank(),
@@ -251,21 +294,24 @@ server <- function(input, output) {
             plot.title = element_text(hjust = 0.5),
             legend.position="none"
       )
+    ggiraph(code = {print(map_plot)})
     
   })
 
-  
-  output$top10table <- renderTable({
-      selected <- iso.alpha(input$countries, n =2) %>% tolower()
+  ## Outputs a table
+  output$top10table <- DT::renderDataTable(DT::datatable({
+      selected <- iso.alpha(country_choose(), n =2) %>% tolower()
       
-      download.file(paste0("https://spotifycharts.com/regional/", selected, "/daily/latest/download"), 
+      download.file(paste0("https://spotifycharts.com/regional/",
+                           selected, "/daily/latest/download"), 
                     destfile = paste0("top200", selected,".csv"))
-      top_200 <- read.csv(paste0("top200", selected, ".csv"), stringsAsFactors = FALSE, fileEncoding = "UTF8")
-      top_200 <- data.frame(top_200) %>% select(Position, Track.Name, Artist)
+      top_200 <- read.csv(paste0("top200", selected, ".csv"),
+                          stringsAsFactors = FALSE, fileEncoding = "UTF8")
+      top_200 <- data.frame(top_200) %>%
+        rename("Track Name" = Track.Name) %>%
+        select(Position, 'Track Name', Artist)
       top_200
-    
-
-  })
+  }))
     
 }
 

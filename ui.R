@@ -62,25 +62,65 @@ ui <- navbarPage("Exploring Music",
             )
           )
         ),
+        
+        #################
+        ## Owen's Work ##
+        #################
+        
         tabPanel("Track Traits",
                  sidebarLayout(
                    sidebarPanel(
-                     p("temp")
+                     h4(strong("Directions")),
+                     p("Hover over each point to see the top 50 songs
+                       and their track information"),
+                     p(strong("Black dots refer to explicit songs")),
+                     p(strong("White dots refer to non-explicit songs")),
+                     h4(strong("Definitions:")),
+                     p(strong("Explicit - "), "An explicit track is one that has
+                       curse words or language or art that is sexual, violent
+                       or offensive in nature."),
+                     p(em(strong("Note: "), "The explicit content tags are applied
+                       based on information Spotify receives from rights-holders.")),
+                     p(strong("Popularity - "), "The popularity of the track. The
+                       value will be between 0 and 100, with 100 being the most
+                       popular. The popularity of a track is a value between 0
+                       and 100, with 100 being the most popular."),
+                     p(strong("Length -"), "The track length in seconds.")
                    ),
                    mainPanel(
-                     #plotlyOutput("plot2")
+                     plotlyOutput("plot2"),
+                     htmlOutput("more_info")
+
                    )
                  )
         ),
-        tabPanel("Map",
+        #################
+        tabPanel("Spotify Availability",
           sidebarLayout(
             sidebarPanel(
-              p("temp")
+              h4(strong("Directions")),
+              p("Hover over each Country to see if Spotify is available.")
             ),
             mainPanel(
-             p("temp")
+              h2("Map of Countries With Spotify"),
+              ggiraphOutput("plot_map")
             )
           )
+        ),
+        tabPanel("View a Country's Top 200 Songs",
+                 sidebarLayout(
+                   sidebarPanel(
+                     h4(strong("Directions")),
+                     p("Select a Country to View Top 200 Songs"),
+                     selectInput("countries", label = "Country", data_has$region %>% unique(), selected = NULL, multiple = FALSE,
+                                 selectize = TRUE, width = NULL, size = NULL),
+                     p(strong("Note:"), "These are the Countries that have Spotify available within them.")
+                   ),
+                   mainPanel(
+                     h2(htmlOutput("statement_two")),
+                     DT::dataTableOutput("top10table")
+                   )
+                 )
         ),
         tabPanel("About",
           splitLayout(
@@ -89,12 +129,12 @@ ui <- navbarPage("Exploring Music",
                 h2(strong("Project Description")),
                 h4(strong("What is the data?")),
                 HTML("The data utilizes Spotify's Web API. The API endpoints
-                     <br>return JSON metadata about music artists, albums, BPM,
-                     <br>and tracks, directly from the Spotify Data Catalogue."),
+                     return JSON metadata about <br> music artists, albums, BPM,
+                     and tracks, directly from the Spotify Data Catalogue."),
                 h4(strong("Why do we care?")),
                 HTML("Our project allows our users to
-                     <br>investigate broadly such as genre popularity and album information
-                     <br>to more technical aspect of songs such as danceability vs. energy
+                     investigate broadly such as genre <br> popularity and album information
+                     to more technical aspect of songs such as danceability vs. energy
                      <br>and if songs are more relatively positive and negative."),
                 h2(strong("Technical Description")),
                 h4(strong("What libraries were used?")),
@@ -108,7 +148,8 @@ ui <- navbarPage("Exploring Music",
                      apps straight from R. </li>
                      <li> ggplot2 - Data visualization package for R. </li>
                      <li> Plotly - Library makes interactive, publication-quality 
-                     graphs with R. </li>"),
+                     graphs with R. </li>
+                     <li>ggiraph - Allows users to make ggplot interactions.</li>"),
                 h4(strong("Sources")),
                 HTML("<li> Stack Overflow </li> 
                      <li> Plotly Documentation. </li>")
@@ -122,7 +163,7 @@ ui <- navbarPage("Exploring Music",
                 h5(strong("Joe Ubelhart:")),
                 p(""),
                 h5(strong("Timmy Tang:")),
-                p(""),
+                p("I am Timmy Tang, who enjoys listening to music."),
                 h5(strong("Owen DeArmond-MacLeod:")),
                 p("I'm Owen DeArmond-MacLeod, a Poly Sci major who has an interest
                   in informatics and statistics")

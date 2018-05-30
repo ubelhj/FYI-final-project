@@ -2,6 +2,8 @@
 ## Section AD
 
 #install.packages('DT')
+#install.packages("ggiraph")
+#install.packages("R.oo")
 
 library(DT)
 library(httr)
@@ -11,6 +13,7 @@ library(shiny)
 library(ggplot2)
 library(plotly)
 library(maps)
+library(ggiraph)
 source("apikeys.R")
 
 ## Authorization
@@ -73,6 +76,7 @@ top_100_df <- do.call(rbind.data.frame, top_100_content[[1]])
 
 top_100_df <- right_join(top_100_df, top_100, by = "id")
 
+
 top_100_df[is.na(top_100_df)] <- 0
 
 ## Test animated metronome
@@ -95,6 +99,7 @@ top_100_df[is.na(top_100_df)] <- 0
 #   ) %>% 
 #   animation_opts(frame = 60000 / animation_test_row$tempo, mode = "next")
 # p
+
 
 
 ## James's Work
@@ -124,68 +129,62 @@ column_names_james <- top_100_df_james %>%
 ## Timmy's work
 
 country_code <- c("us",
-                     "gb",
-                     "ad",
-                     "ar",
-                     "at",
-                     "au",
-                     "be",
-                     "bg",
-                     "bo",
-                     "br",
-                     "ca",
-                     "ch",
-                     "cl",
-                     "co",
-                     "cr",
-                     "cy",
-                     "cz",
-                     "de",
-                     "dk",
-                     "do",
-                     "ec",
-                     "ee",
-                     "es",
-                     "fi",
-                     "fr",
-                     "gr",
-                     "gt",
-                     "hk",
-                     "hn",
-                     "hu",
-                     "id",
-                     "ie",
-                     "il",
-                     "is",
-                     "it",
-                     "jp",
-                     "lt",
-                     "lu",
-                     "lv",
-                     "mc",
-                     "mt",
-                     "mx",
-                     "my",
-                     "ni",
-                     "nl",
-                     "no",
-                     "nz",
-                     "pa",
-                     "pe",
-                     "ph",
-                     "pl",
-                     "pt",
-                     "py",
-                     "ro",
-                     "se",
-                     "sg",
-                     "sk",
-                     "sv",
-                     "th",
-                     "tr",
-                     "tw",
-                     "uy",
-                     "vn") %>% toupper()
+                  "gb",
+                  "ar",
+                  "at",
+                  "au",
+                  "be",
+                  "bo",
+                  "br",
+                  "ca",
+                  "ch",
+                  "cl",
+                  "co",
+                  "cr",
+                  "cz",
+                  "de",
+                  "dk",
+                  "do",
+                  "ec",
+                  "ee",
+                  "es",
+                  "fi",
+                  "fr",
+                  "gr",
+                  "gt",
+                  "hk",
+                  "hn",
+                  "hu",
+                  "id",
+                  "ie",
+                  "il",
+                  "is",
+                  "it",
+                  "jp",
+                  "lt",
+                  "lv",
+                  "mx",
+                  "my",
+                  "ni",
+                  "nl",
+                  "no",
+                  "nz",
+                  "pa",
+                  "pe",
+                  "ph",
+                  "pl",
+                  "pt",
+                  "py",
+                  "ro",
+                  "se",
+                  "sg",
+                  "sk",
+                  "sv",
+                  "th",
+                  "tr",
+                  "tw",
+                  "uy",
+                  "vn") %>% toupper()
 world_map <- map_data("world") %>% group_by(region)
 world_map$Country_desig = iso.alpha(world_map$region, n = 2)
 
@@ -197,7 +196,9 @@ data_has <- right_join(world_map, has_data, by = "Country_desig")
 
 combine$highlight[is.na(combine$highlight)] <- F
 
-## Owen's WOrk
+#################
+## Owen's Work ##
+#################
 
 top_50 <- top_100 %>%
   select(id) %>% 
@@ -220,9 +221,15 @@ top_50_df <- data.frame(parsed_top_50)
 
 top_50 <- top_50_df %>% 
   rename(
-    "Name" = tracks.name,
+    "Track Name" = tracks.name,
     "Position" = tracks.disc_number,
     "Explicit" = tracks.explicit,
-    "Popularity" = tracks.popularity
+    "Popularity" = tracks.popularity,
+    "Length" = tracks.duration_ms
   ) %>% 
-  select(Name, Position, "Explicit", "Popularity")
+  select("Track Name", Position, Explicit, Popularity, Length) %>% 
+  mutate(
+    Length = Length / 1000
+  )
+
+#################
