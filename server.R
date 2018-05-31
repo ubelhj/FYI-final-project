@@ -179,7 +179,8 @@ server <- function(input, output) {
             text = ~paste0("Track Name: ", `Track Name`, 
                            "<br>Artist: ", `Artist`,
                            "<br>", audio_one(), ": ", get(audio_one()),
-                           "<br>", audio_two(), ": ", get(audio_two()))) %>% 
+                           "<br>", audio_two(), ": ", get(audio_two())), 
+            color ="#1DB954", colors = "#1DB954") %>% 
       layout(title = title, 
              xaxis = x, 
              yaxis = y)

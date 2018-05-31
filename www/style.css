@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Sunflower:300');
+
+body{
+  font-family: 'Sunflower', sans-serif;
+}
+.navbar { 
+  background-color: #1DB954;
+  color: #191414;
+}
+.navbar-default .navbar-brand{
+  color: #191414;
+}
+.navbar-default .navbar-nav>.active>a:hover {
+color: #191414;
+background-color: #FFFFFF;
+}
+.navbar-default .navbar-nav>li>a {
+color: #191414;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+color: #191414;
+background-color: #FFFFFF;
+}

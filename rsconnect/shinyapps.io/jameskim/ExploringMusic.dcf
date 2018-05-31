@@ -5,9 +5,9 @@ account: jameskim
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 350949
-bundleId: 1401529
+bundleId: 1401896
 url: https://jameskim.shinyapps.io/ExploringMusic/
-when: 1527718107.48272
+when: 1527736382.15805
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: logos/1.png|logos/2.png|logos/3.png

@@ -1,6 +1,6 @@
 source("global.R")
 
-ui <- navbarPage("Exploring Music", 
+ui <- navbarPage(title ="Exploring Music", theme = "style.css",
         tabPanel("Home", 
           sidebarLayout(position = "right",
             sidebarPanel(
