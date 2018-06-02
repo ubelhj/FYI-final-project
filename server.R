@@ -180,10 +180,12 @@ server <- function(input, output) {
                            "<br>Artist: ", `Artist`,
                            "<br>", audio_one(), ": ", get(audio_one()),
                            "<br>", audio_two(), ": ", get(audio_two())), 
-            color ="#1DB954", colors = "#1DB954") %>% 
+            color ="#1DB954", colors = "#1DB954",
+            source = "plot") %>% 
       layout(title = title, 
              xaxis = x, 
              yaxis = y)
+    
     
   })
 
@@ -200,7 +202,7 @@ server <- function(input, output) {
   
   ## Click data and link to song
   output$features_click <- renderText({
-    point <- event_data("plotly_click")
+    point <- event_data("plotly_click", source = "plot")
     paste0(
       "<h4><b><u>Song Information</u></b>",
       "<br><b>Track Name: </b>",
@@ -239,17 +241,17 @@ server <- function(input, output) {
 
   ## Click Feature
   output$more_info <- renderText({
-    point <- event_data("plotly_click")
+    point2 <- event_data("plotly_click", source = "plot_2")
     paste0(
       "<h4><b><u>Song Information</u></b>",
       "<br><b>Track Name: </b>",
-      top_50[(point$pointNumber + 1), "Track Name"],
+      top_50[(point2$pointNumber + 1), "Track Name"],
       "<br><b>Explicit? </b>",
-      top_50[(point$pointNumber + 1), "Explicit"],
+      top_50[(point2$pointNumber + 1), "Explicit"],
       "<br><b>Popularity: </b>",
-      top_50[(point$pointNumber + 1), "Popularity"],
+      top_50[(point2$pointNumber + 1), "Popularity"],
       "<br><b>Length: </b>",
-      top_50[(point$pointNumber + 1), "Length"]
+      top_50[(point2$pointNumber + 1), "Length"]
     )
   })
   ## Outputs Plot
@@ -258,7 +260,7 @@ server <- function(input, output) {
                                                                  "<br>Explicit? ", `Explicit`,
                                                                  "<br>Popularity: ", `Popularity`,
                                                                  "<br>Length: ", `Length`), 
-            color = ~Explicit, colors = c("#1DB954", "#191414"), sizes = 4) %>% 
+            color = ~Explicit, colors = c("#1DB954", "#191414"), sizes = 4, source = "plot_2") %>% 
               layout(title = "Popularity vs Length",
                      xlab("Popularity Ranking"),
                      ylab("Length (Seconds)"),
